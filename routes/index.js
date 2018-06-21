@@ -65,7 +65,6 @@ const SheetsToEdit = [
   },
 	{
 	  graphRef: 'P&L',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 0,
 	  smartSheetRef: 6602198898501508
 	},
@@ -73,40 +72,30 @@ const SheetsToEdit = [
 	  graphRef: 'HC Legacy',
 	  includeSSColumn: 1,
 	  rangeEdit: 0,
-	  graphRange: 'A1: I15',
 	  smartSheetRef: 1535649317709700
 	},
 	{
 	  graphRef: 'HC Ongoing',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 1,
-	  rangeEdit: 0,
 	  smartSheetRef: 8088111688247172
 	},
 	{
 	  graphRef: 'Non HC',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 0,
-	  rangeEdit: 0,
 	  smartSheetRef: 5248700218926980
 	},
 	{
 	  graphRef: 'Units Budget',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 1,
-	  rangeEdit: 0,
 	  smartSheetRef: 6039248945080196
 	},
 	{
 	  graphRef: 'Customer Dashboard',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 1,
-	  rangeEdit: 0,
 	  smartSheetRef: 3787449131394948
 	},
 	{
 	  graphRef: 'MR Budget',
-	  graphRange: 'A1: I15',
 	  includeSSColumn: 1,
 	  smartSheetRef: 8291048758765444
 	}
@@ -182,11 +171,11 @@ function updateSmartsheetToExcel(req, res, first) {
         renderError(err, res);
       }
     });
-		// res.render('ssIntegration', data);
+		// res.render('ssIntegration',data)
   });
 }
 function sendValueToLiveEdit(req, values, lastRange, firstRange, graphRef, first) {
-  setTimeout(function () {
+  
   graphHelper.updateFile(
 		req.user.accessToken,
 		values,
@@ -202,7 +191,7 @@ function sendValueToLiveEdit(req, values, lastRange, firstRange, graphRef, first
 				// renderError(err, res);
   }
 }
-	);},3000);
+	);
 }
 function updateRangeSStoEX(req, res, first) {
   console.log(new Date());
