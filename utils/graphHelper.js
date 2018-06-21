@@ -98,19 +98,19 @@ function getFileDetails(accessToken, callback) {
   callback(err, res.body);
 });
 }
-function updateFile(accessToken, value, lastRange, sheet, callback) {
+function updateFile(accessToken, value, firstRange, lastRange, sheet, callback) {
 	// test joe chart 01LT4ZEQNG2XUHMKCQ6FEZGWOPKRCWBRDZ
 	// real joe chart 01LT4ZEQOEI5X4RS4ERNF2GNU244SO2DSA
   request
 		.patch(
-			`https://graph.microsoft.com/beta/me/drive/items/01LT4ZEQNG2XUHMKCQ6FEZGWOPKRCWBRDZ/workbook/worksheets('${sheet}')/range(address='A1:${lastRange}')`
+			`https://graph.microsoft.com/beta/me/drive/items/01LT4ZEQNG2XUHMKCQ6FEZGWOPKRCWBRDZ/workbook/worksheets('${sheet}')/range(address='${firstRange}:${lastRange}')`
 		)
 		.send(value)
 		.set('Authorization', 'Bearer ' + accessToken)
 		// .set("Content-Type", "image/jpg")
 		.end((err, res) => {
 			// Returns 200 OK and the file metadata in the body.
-  callback(err, res.body);
+  callback(err);
 });
 }
 /**

@@ -20,22 +20,96 @@ const passport = require('passport');
 const smartsheetHelper = require('../utils/smartsheetHelper');
 const config = require('../utils/config');
 const SheetsToEdit = [
-	// { graphName: "P&L", graphRange:"A2:K120"},
-	// { graphName: "HC Legacy", graphRange:"A1:U20"},
-	// { graphName: "HC Ongoing", graphRange:"A1:BH5"},
-	// { graphName: "Non HC", graphRange: "A1:N30" },
-	// { graphName: "Units Budget", graphRange: "A1: I15" },
-	// { graphName: "Custome Dashboard", graphRange: "A1:Q40"},
   {
-    graphRef: 'MR Budget',
+    graphRef: 'Joe Chart',
     graphRange: 'A1: I15',
-    smartSheetRef: 8291048758765444,
-    nonFormularRef: {
-      smartSheet: ['Description|0:Month 12|65'],
-      graph: ['A|1:P|74']
-    }
-  }
-	// { graphName: "Control", graphRange: "A1:Z69" }
+    includeSSColumn: 0,
+    smartSheetRef: 8150311270410116,
+		/*
+         --smartsheet reference--
+         -[0]first column
+         -[1]first row
+         -[2]last column
+         -[3]last row
+
+         --graphReference--
+         [0]startRange
+         [1]lastRage
+        */
+    rangeValue: [
+      {
+        smartSheet: [3, 16, 22, 16],
+        graph: ['C71', 'V71']
+      },
+      {
+        smartSheet: [7, 19, 11, 19],
+        graph: ['G74', 'K74']
+      },
+      {
+        smartSheet: [19, 38, 19, 41],
+        graph: ['S92', 'S95']
+      },
+      {
+        smartSheet: [18, 54, 18, 57],
+        graph: ['R108', 'R111']
+      },
+      {
+        smartSheet: [15, 5, 16, 5],
+        graph: ['V60', 'W60']
+      },
+      {
+        smartSheet: [4, 2, 5, 2],
+        graph: ['Y33', 'Z33']
+      }
+    ]
+  },
+	{
+	  graphRef: 'P&L',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 0,
+	  smartSheetRef: 6602198898501508
+	},
+	{
+	  graphRef: 'HC Legacy',
+	  includeSSColumn: 1,
+	  rangeEdit: 0,
+	  graphRange: 'A1: I15',
+	  smartSheetRef: 1535649317709700
+	},
+	{
+	  graphRef: 'HC Ongoing',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 1,
+	  rangeEdit: 0,
+	  smartSheetRef: 8088111688247172
+	},
+	{
+	  graphRef: 'Non HC',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 0,
+	  rangeEdit: 0,
+	  smartSheetRef: 5248700218926980
+	},
+	{
+	  graphRef: 'Units Budget',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 1,
+	  rangeEdit: 0,
+	  smartSheetRef: 6039248945080196
+	},
+	{
+	  graphRef: 'Customer Dashboard',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 1,
+	  rangeEdit: 0,
+	  smartSheetRef: 3787449131394948
+	},
+	{
+	  graphRef: 'MR Budget',
+	  graphRange: 'A1: I15',
+	  includeSSColumn: 1,
+	  smartSheetRef: 8291048758765444
+	}
 ];
 arrayAlpha = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
@@ -96,7 +170,6 @@ router.get(
 }
 );
 function updateSmartsheetToExcel(req, res, first) {
-  console.log(new Date());
   getSmartsheet(config.smartSheet.defaultSheet, data => {
     let editRow = data.body.rows[0].cells;
     let value = { values: [[editRow[0].value, editRow[1].value]] };
@@ -112,52 +185,89 @@ function updateSmartsheetToExcel(req, res, first) {
 		// res.render('ssIntegration', data);
   });
 }
-function updateRangeSStoEX(req, res, first) {
-  getSmartsheet(SheetsToEdit[0].smartSheetRef, data => {
-    let excelLastRange = parseNumberToExcelColumnName(data.body.columns.length);
-    let lastRow = data.body.rows.length;
-    excelLastRange += lastRow;
-    let values = data.body.rows.map(item => item.cells.map(cellItems => cellItems.value || ''));
-    values = { values };
-    graphHelper.updateFile(
-			req.user.accessToken,
-			values,
-			excelLastRange,
-			'MR Budget',
-			(err, userFiles) => {
+function sendValueToLiveEdit(req, values, lastRange, firstRange, graphRef, first) {
+  setTimeout(function () {
+  graphHelper.updateFile(
+		req.user.accessToken,
+		values,
+		firstRange,
+		lastRange,
+		graphRef,
+		(err) => {
   if (!err) {
-    if (res) {
-						// pausing autoUpdater for now
-      if (first) autoUpdate(req, res);
-    }
+    if (first) autoUpdate(req);
+    console.log('successfully update at ', new Date());
   } else {
-    renderError(err, res);
+    console.log(err);
+				// renderError(err, res);
   }
 }
-		);
+	);},3000);
+}
+function updateRangeSStoEX(req, res, first) {
+  console.log(new Date());
+  for (let a = 0; a < SheetsToEdit.length; a++) {
+    getSmartsheet(SheetsToEdit[a].smartSheetRef, data => {
+			// copy all the values
+      let values = data.body.rows.map(item => item.cells.map(cellItems => cellItems.value || ''));
+      let mGraphStartRange = 'A1';
+      let mGraphLastRange;
+			// check if rangeEdit
+      if (SheetsToEdit[a].rangeValue) {
+        for (let x = 0; x < SheetsToEdit[a].rangeValue.length; x++) {
+          let smartSheetRange = SheetsToEdit[a].rangeValue[x].smartSheet;
+          let mGraphRange = SheetsToEdit[a].rangeValue[x].graph;
 
-		// let columnNumFrom = data.body.columns.filter(
-		// 	item => item.title == SheetsToEdit[0].nonFormularRef.smartSheet[0].split(':')[0].split('|')[0]
-		// )[0].index;
-		// let columnNumTo = data.body.columns.filter(
-		// 	item => item.title == SheetsToEdit[0].nonFormularRef.smartSheet[0].split(':')[1].split('|')[0]
-		// )[0].index;
-		// let rowStart = SheetsToEdit[0].nonFormularRef.smartSheet[0].split(':')[0].split('|')[1];
-		// let rowEnd = SheetsToEdit[0].nonFormularRef.smartSheet[0].split(':')[1].split('|')[1];
-		// // console.log(columnNumFrom, columnNumTo, rowStart, rowEnd);
-		// let valueToEdit = [];
-		// for (let rS = rowStart; rS <= rowEnd; rS++) {
-		//   for (let cS = columnNumFrom; cS <= columnNumTo; cS++) {
-		//     let value = data.body.rows[rS].cells[cS].value || '';
-		//     valueToEdit.push(value);
-		//   }
-		// }
-		// console.log(valueToEdit);
-		// res.json(data.body);
-  });
+					// get the values needed by Row
+          let RangeVal = values.filter(
+						(item, index) => index >= smartSheetRange[1] && index <= smartSheetRange[3]
+					);
+          RangeVal = RangeVal.map(item =>
+						item.filter(
+							(tofilter, index) => index >= smartSheetRange[0] && index <= smartSheetRange[2]
+						)
+					);
+          RangeVal = { values: RangeVal };
+          sendValueToLiveEdit(
+						req,
+						RangeVal,
+						mGraphRange[1],
+						mGraphRange[0],
+						SheetsToEdit[a].graphRef,
+						first
+					);
+        }
+      } else {
+        if (SheetsToEdit[a].includeSSColumn) {
+					// now copy the column name and put them at the top of the sheet;
+          let columnName = data.body.columns.map(item => item.title);
+          values.unshift(columnName);
+        }
+
+				// now shift all value to the next column for easy formatting
+        values = values.map(item => {
+          item.unshift(' ');
+          return item;
+        });
+				// res.json(values);
+				// get the right excel last Range to use for example AB55
+        mGraphLastRange = parseNumberToExcelColumnName(values[0].length);
+        mGraphLastRange += values.length;
+        values = { values };
+        sendValueToLiveEdit(
+					req,
+					values,
+					mGraphLastRange,
+					mGraphStartRange,
+					SheetsToEdit[a].graphRef,
+					first
+				);
+      }
+    });
+  }
 }
 function autoUpdate(req, res) {
-  setInterval(() => updateSmartsheetToExcel(req, res), 10000);
+  setInterval(() => updateRangeSStoEX(req, res), 60000);
 }
 
 // // Load the sendMail page.
@@ -176,7 +286,7 @@ function getSmartsheet(id, callback) {
     err,
     data
 	) {
-    if (err) res.send(err);
+    if (err) console.log(err);
     callback(data);
   });
 }
