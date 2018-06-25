@@ -20,6 +20,12 @@ const passport = require('passport');
 const smartsheetHelper = require('../utils/smartsheetHelper');
 const config = require('../utils/config');
 const arrayAlpha = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+let fs = require('fs');
+let path = require('path');
+
+//so we could clear interval later
+let interval;
+let continueUpdate = true;
 const SheetsToEdit = [
 	{
 		graphRef: 'Joe Chart',
@@ -111,6 +117,10 @@ router.get('/', (req, res) => {
 		updateRangeSStoEX(req, res, 'first');
 	}
 });
+router.get('/stop', (req, res) => {
+	clearInterval(interval);
+	res.send({ message: 'server stopped' });
+});
 // Authentication request.
 router.get(
 	'/login',
@@ -133,7 +143,7 @@ router.get(
 	'/token',
 	passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }),
 	(req, res) => {
-		updateRangeSStoEX(req, 'first');
+		updateRangeSStoEX(req, 'first', res);
 	}
 );
 
@@ -176,9 +186,19 @@ function sendValueToLiveEdit(req, values, lastRange, firstRange, graphRef) {
 	});
 }
 
-function updateRangeSStoEX(req, first) {
+function updateRangeSStoEX(req, first, res) {
 	console.log(new Date());
 	if (first == 'first') autoUpdate(req);
+
+	// let minAirport = airports.map(item => {
+	// 	if (item.is_active && item.name.indexOf('closed') < 0)
+	// 		return { c: item.code, n: item.name, l: item.location };
+	// });
+	// fs.writeFile('allAirports.json', JSON.stringify(minAirport), function(err) {
+	// 	if (err) throw err;
+	// 	console.log('Saved!');
+	// });
+
 	for (let a = 0; a < SheetsToEdit.length; a++) {
 		getSmartsheet(SheetsToEdit[a].smartSheetRef, data => {
 			// copy all the values
@@ -248,7 +268,7 @@ function updateRangeSStoEX(req, first) {
 	}
 }
 function autoUpdate(req) {
-	setInterval(() => updateRangeSStoEX(req), 60000);
+	interval = setInterval(() => updateRangeSStoEX(req), 60000);
 }
 async function getSmartsheet(id, callback) {
 	await smartsheetHelper.sendGetRequest('', 'https://api.smartsheet.com/2.0/sheets/' + id, function(
