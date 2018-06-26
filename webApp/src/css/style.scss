@@ -150,6 +150,9 @@ img::-moz-selection {
 	background-color: $primary-color !important;
 	color: #fff;
 	display: block;
+	button {
+		color: #000;
+	}
 }
 .primary-text-color {
 	color: $primary-color !important;

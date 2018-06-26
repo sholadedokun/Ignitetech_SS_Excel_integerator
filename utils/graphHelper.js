@@ -28,7 +28,7 @@ function updateFile(accessToken, value, firstRange, lastRange, sheet, callback) 
 		)
 		.send(value)
 		.set('Authorization', 'Bearer ' + accessToken)
-		// .set("Content-Type", "image/jpg")
+
 		.end((err, res) => {
 			// Returns 200 OK and the file metadata in the body.
   callback(err);
