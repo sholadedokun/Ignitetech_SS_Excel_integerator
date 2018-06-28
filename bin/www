@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app=require("../app");
 const debug = require('debug')('nodejs-microsoft-graph-connect:server');
 const http = require('http');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -19,6 +20,7 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -84,6 +86,6 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind); 
+  debug('Listening on ' + bind);
   console.log('\r\nListening on ' + bind);
 }

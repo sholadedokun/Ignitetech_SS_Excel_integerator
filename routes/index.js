@@ -20,93 +20,13 @@ const passport = require('passport');
 const smartsheetHelper = require('../utils/smartsheetHelper');
 const config = require('../utils/config');
 const arrayAlpha = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+const SheetsToEdit = require('../utils/sheetList').sheetsToEdit;
 let fs = require('fs');
 let path = require('path');
 let fileDB = require('../database/lastModified');
 //so we could clear interval later
 let interval;
 let continueUpdate = true;
-const SheetsToEdit = [
-	{
-		graphRef: 'Joe Chart',
-		graphRange: 'A1: I15',
-		includeSSColumn: 0,
-		smartSheetRef: 8150311270410116,
-		/*
-         --smartsheet reference--
-         -[0]first column
-         -[1]first row
-         -[2]last column
-         -[3]last row
-
-         --graphReference--
-         [0]startRange
-         [1]lastRage
-        */
-		rangeValue: [
-			{
-				smartSheet: [3, 16, 22, 16],
-				graph: ['C71', 'V71']
-			},
-			{
-				smartSheet: [7, 19, 11, 19],
-				graph: ['G74', 'K74']
-			},
-			{
-				smartSheet: [19, 38, 19, 41],
-				graph: ['S92', 'S95']
-			},
-			{
-				smartSheet: [18, 54, 18, 57],
-				graph: ['R108', 'R111']
-			},
-			{
-				smartSheet: [15, 5, 16, 5],
-				graph: ['V60', 'W60']
-			},
-			{
-				smartSheet: [4, 2, 5, 2],
-				graph: ['Y33', 'Z33']
-			}
-		]
-	},
-	{
-		graphRef: 'P&L',
-		includeSSColumn: 0, // to include the smartsheet column or not during copy
-		smartSheetRef: 6602198898501508
-	},
-	{
-		graphRef: 'HC Legacy',
-		includeSSColumn: 1,
-		rangeEdit: 0,
-		smartSheetRef: 1535649317709700
-	},
-	{
-		graphRef: 'HC Ongoing',
-		includeSSColumn: 1,
-		smartSheetRef: 2098599271131012
-	},
-	{
-		graphRef: 'Non HC',
-		includeSSColumn: 0,
-		smartSheetRef: 5248700218926980
-	},
-	{
-		graphRef: 'Units Budget',
-		includeSSColumn: 1,
-		smartSheetRef: 6039248945080196
-	},
-	{
-		graphRef: 'Customer Dashboard',
-		includeSSColumn: 1,
-		smartSheetRef: 3787449131394948
-	},
-	{
-		graphRef: 'MR Budget',
-		includeSSColumn: 1,
-		smartSheetRef: 8291048758765444
-	}
-];
 
 // Get the home page.
 router.get('/', (req, res) => {
@@ -161,31 +81,31 @@ function parseNumberToExcelColumnName(valueToPass) {
 	columnName += arrayAlpha[value];
 	return columnName;
 }
-function updateSmartsheetToExcel(req, res, first) {
-	getSmartsheet(config.smartSheet.defaultSheet, data => {
-		let editRow = data.body.rows[0].cells;
-		let value = { values: [[editRow[0].value, editRow[1].value]] };
-		graphHelper.updateFile(req.user.accessToken, value, (err, userFiles) => {
-			if (!err) {
-				if (res) {
-					if (first) autoUpdate(req, res);
-				}
-			} else {
-				renderError(err, res);
-			}
-		});
-		// res.render('ssIntegration',data)
-	});
-}
+// function updateSmartsheetToExcel(req, res, first) {
+// 	getSmartsheet(config.smartSheet.defaultSheet, data => {
+// 		let editRow = data.body.rows[0].cells;
+// 		let value = { values: [[editRow[0].value, editRow[1].value]] };
+// 		graphHelper.updateFile(req.user.accessToken, value, (err, userFiles) => {
+// 			if (!err) {
+// 				if (res) {
+// 					if (first) autoUpdate(req, res);
+// 				}
+// 			} else {
+// 				renderError(err, res);
+// 			}
+// 		});
+// 		// res.render('ssIntegration',data)
+// 	});
+// }
 //to call the microsoft graph API...
 function sendValueToLiveEdit(req, values, lastRange, firstRange, graphRef, sheetID, lastModified) {
-	return new Promise(function(resolve) {
+	return new Promise(function(resolve, reject) {
 		//calls the microsoft API
 		graphHelper.updateFile(req.user.accessToken, values, firstRange, lastRange, graphRef, err => {
 			if (!err) {
 				//update the json database with the edit timestamp
 				updateDatabase(sheetID, lastModified, () =>
-					resolve('successfully update at ' + new Date())
+					resolve(`successfully update ${graphRef} at ${new Date()}`)
 				);
 			} else {
 				console.log(err);
@@ -257,7 +177,7 @@ function updateRangeSStoEX(req, first, res) {
 							);
 							RangeVal = { values: RangeVal };
 							sending();
-							//using asyn and wait because of non-blocking nature of Node... this will help puase the code till the last edit was done
+							//using asyn and wait because of non-blocking nature of Node... this will help pause the code till the last edit was done
 							async function sending() {
 								let result = await sendValueToLiveEdit(
 									req,

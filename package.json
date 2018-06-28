@@ -4,11 +4,10 @@
 	"description": "Connecting to Microsoft Graph is the first step every Node.js app must take to start working with the Microsoft Graph API. This sample shows how to connect and call Microsoft Graph",
 	"private": true,
 	"scripts": {
-		"start": "node ./bin/www",
-		"startNtest": "mocha ./tests/confTest.js && node ./bin/www",
+		"start": "mocha ./tests/confTest.js && node ./bin/www",
 		"lint": "eslint .",
 		"test": "mocha ./tests/integrationTest.js --timeout 10000",
-		"automatedTest": "mocha ./tests/automatedTest.js --timeout 20000"
+		"automatedTest": "mocha ./tests/automatedTest.js --ignore-certificate-errors --timeout 20000"
 	},
 	"keywords": [
 		"graph",
@@ -28,17 +27,15 @@
 		"express-session": "^1.15.2",
 		"hbs": "~4.0.1",
 		"morgan": "~1.8.1",
-		"nodemon": "^1.17.5",
 		"passport": "^0.3.2",
 		"passport-azure-ad": "^3.0.5",
 		"serve-favicon": "~2.4.2",
-		"socket.io": "^2.1.1",
 		"superagent": "^3.5.2",
 		"uuid": "^3.0.1"
 	},
 	"devDependencies": {
-		"@types/mocha": "^2.2.41",
 		"@types/node": "^8.0.2",
+		"@types/mocha": "^2.2.41",
 		"eslint": "^3.19.0",
 		"eslint-config-airbnb": "^14.1.0",
 		"eslint-plugin-jsx-a11y": "^4.0.0",
