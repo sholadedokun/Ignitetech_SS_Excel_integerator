@@ -1,6 +1,6 @@
 @import url("font-awesome.min.css");
 @font-face {
-  font-family: 'ProximaNova-Regular';
+  font-family: "ProximaNova-Regular";
   src: url("../fonts/ProximaNova-Regular.eot");
   src: url("../fonts/ProximaNova-Regular.woff") format("woff"), url("../fonts/ProximaNova-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -8,7 +8,7 @@
 }
 
 @font-face {
-  font-family: 'Proxima-Nova-Thin';
+  font-family: "Proxima-Nova-Thin";
   src: url("../fonts/Proxima-Nova-Thin.eot");
   src: url("../fonts/Proxima-Nova-Thin.woff") format("woff"), url("../fonts/Proxima-Nova-Thin.ttf") format("truetype");
   font-weight: normal;
@@ -16,7 +16,7 @@
 }
 
 @font-face {
-  font-family: 'Proxima-Nova-Semibold';
+  font-family: "Proxima-Nova-Semibold";
   src: url("../fonts/Proxima-Nova-Semibold.eot");
   src: url("../fonts/Proxima-Nova-Semibold.woff") format("woff"), url("../fonts/Proxima-Nova-Semibold.ttf") format("truetype");
   font-weight: normal;
@@ -24,7 +24,7 @@
 }
 
 @font-face {
-  font-family: 'ACaslonPro-Regular';
+  font-family: "ACaslonPro-Regular";
   src: url("../fonts/ACaslonPro-Regular.eot");
   src: url("../fonts/ACaslonPro-Regular.woff") format("woff"), url("../fonts/ACaslonPro-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -32,7 +32,7 @@
 }
 
 @font-face {
-  font-family: 'ACaslonPro-Semibold';
+  font-family: "ACaslonPro-Semibold";
   src: url("../fonts/ACaslonPro-Semibold.eot");
   src: url("../fonts/ACaslonPro-Semibold.woff") format("woff"), url("../fonts/ACaslonPro-Semibold.ttf") format("truetype");
   font-weight: normal;
@@ -40,7 +40,7 @@
 }
 
 @font-face {
-  font-family: 'ACaslonPro-Bold';
+  font-family: "ACaslonPro-Bold";
   src: url("../fonts/ACaslonPro-Bold.eot");
   src: url("../fonts/ACaslonPro-Bold.woff") format("woff"), url("../fonts/ACaslonPro-Bold.ttf") format("truetype");
   font-weight: normal;
@@ -53,12 +53,14 @@ html {
   overflow: auto;
 }
 
-*, :after, :before {
+*,
+:after,
+:before {
   box-sizing: inherit;
 }
 
 body {
-  background: #FFFFFF;
+  background: #ffffff;
   font-family: "ProximaNova-Regular";
   font-size: 14px;
   -moz-osx-font-smoothing: grayscale !important;
@@ -73,7 +75,7 @@ a {
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
   transition: all 0.35s;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 a:hover,
@@ -96,7 +98,9 @@ a:focus {
   margin: 0px !important;
 }
 
-textarea:focus, input:focus, .form-control:focus {
+textarea:focus,
+input:focus,
+.form-control:focus {
   outline: none !important;
   box-shadow: none !important;
 }
@@ -106,19 +110,19 @@ label {
 }
 
 ::-webkit-input-placeholder {
-  color: #84999D;
+  color: #84999d;
 }
 
 ::-moz-placeholder {
-  color: #84999D;
+  color: #84999d;
 }
 
 :-ms-input-placeholder {
-  color: #84999D;
+  color: #84999d;
 }
 
 :-moz-placeholder {
-  color: #84999D;
+  color: #84999d;
 }
 
 ::-moz-selection {
@@ -144,12 +148,17 @@ img::-moz-selection {
 }
 
 .text-white {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 .primary-bg {
   background-color: #002048 !important;
-  display: inline-block;
+  color: #fff;
+  display: block;
+}
+
+.primary-bg button {
+  color: #000;
 }
 
 .primary-text-color {
@@ -187,7 +196,8 @@ img::-moz-selection {
   padding-top: 40px;
 }
 
-.btn, .btn-default {
+.btn,
+.btn-default {
   padding: 20px 34px;
   margin: 0 10px 20px 10px;
   outline: 0;
@@ -245,7 +255,9 @@ img::-moz-selection {
   transition: all 0.35s;
 }
 
-.btn-small:hover, .btn-small:focus, .btn-small:active {
+.btn-small:hover,
+.btn-small:focus,
+.btn-small:active {
   background-color: transparent;
   box-shadow: none;
   outline: 0;
@@ -253,30 +265,40 @@ img::-moz-selection {
   color: #002048 !important;
 }
 
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus, .btn:hover, .btn:active {
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus,
+.btn:hover,
+.btn:active {
   box-shadow: none;
   outline: 0;
   outline-offset: 0;
-  color: #FFFFFF !important;
-  opacity: .9;
+  color: #ffffff !important;
+  opacity: 0.9;
 }
 
 .btn-white-transparent {
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: transparent !important;
-  border: 1px solid #FFFFFF !important;
+  border: 1px solid #ffffff !important;
 }
 
 .btn-gray {
-  color: #FFFFFF;
-  background-color: #ACB4C0 !important;
-  border: 1px solid #ACB4C0 !important;
+  color: #ffffff;
+  background-color: #acb4c0 !important;
+  border: 1px solid #acb4c0 !important;
 }
 
 .btn-blue {
-  color: #FFFFFF;
-  background-color: #00D9FF !important;
-  border: 1px solid #00D9FF !important;
+  color: #ffffff;
+  background-color: #00d9ff !important;
+  border: 1px solid #00d9ff !important;
 }
 
 .btn-primary {
@@ -285,7 +307,9 @@ img::-moz-selection {
   border: 1px solid #002048 !important;
 }
 
-.btn-file, .btn-danger, .btn-info {
+.btn-file,
+.btn-danger,
+.btn-info {
   padding: 14px 16px;
   margin: 0;
 }
@@ -294,12 +318,13 @@ img::-moz-selection {
   background-color: #5cb85c !important;
 }
 
-.form-control, .select2-container--default .select2-selection--single {
-  border: 1px solid #BFC7D2 !important;
+.form-control,
+.select2-container--default .select2-selection--single {
+  border: 1px solid #bfc7d2 !important;
   outline: none;
   height: 50px;
   padding: 20px;
-  color: #ACB4C0 !important;
+  color: #acb4c0 !important;
   font-family: "Proxima-Nova-Semibold" !important;
   font-size: 15px !important;
   line-height: 18px !important;
@@ -392,22 +417,22 @@ img::-moz-selection {
 
 .select2-dropdown {
   background-color: #002048;
-  border: 1px solid #BFC7D2 !important;
+  border: 1px solid #bfc7d2 !important;
   border-radius: 5px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.select2-container--default .select2-results__option[aria-selected=true] {
-  background-color: #00D9FF;
+.select2-container--default .select2-results__option[aria-selected="true"] {
+  background-color: #00d9ff;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #ACB4C0;
-  color: #FFFFFF !important;
+  background-color: #acb4c0;
+  color: #ffffff !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-  color: #ACB4C0 !important;
+  color: #acb4c0 !important;
 }
 
 .file-preview {
@@ -456,7 +481,8 @@ img::-moz-selection {
   padding-bottom: 30px;
 }
 
-.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover {
   text-decoration: none !important;
 }
 
@@ -467,7 +493,7 @@ section {
 }
 
 section h1 {
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: "ACaslonPro-Regular";
   font-size: 48px;
   line-height: 58px;
@@ -477,7 +503,7 @@ section h1 {
 
 section .step {
   margin-bottom: 30px;
-  color: #BFC7D2;
+  color: #bfc7d2;
   font-family: "ACaslonPro-Regular";
   font-size: 18px;
   font-weight: 600;
@@ -487,7 +513,7 @@ section .step {
 
 section p.subject {
   font-family: "Proxima-Nova-Semibold";
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 20px;
   line-height: 24px;
   margin-top: 10px;
@@ -514,10 +540,10 @@ section .round-image {
 
 section .payment {
   padding: 40px 0;
-  background-color: #FFFFFF;
-  border: 1px solid #ACB4C0;
+  background-color: #ffffff;
+  border: 1px solid #acb4c0;
   border-radius: 5px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
 }
 
 section .payment .name {
@@ -561,10 +587,10 @@ section .payment .payment-details .total-price {
 }
 
 section .card {
-  border: 1px solid #ACB4C0;
+  border: 1px solid #acb4c0;
   border-radius: 5px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F0F0F0 100%);
-  padding: 40px  60px 30px 60px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+  padding: 40px 60px 30px 60px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -600,7 +626,7 @@ section .card .application-details {
 
 section .card .text-card {
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   padding: 10px 20px;
   color: #002048;
@@ -611,10 +637,10 @@ section .card .text-card {
 }
 
 section .card .text-card span.blue {
-  color: #00D9FF !important;
+  color: #00d9ff !important;
 }
 
 section .card .text-card span.amber {
-  color: #F4CC6A !important;
+  color: #f4cc6a !important;
 }
 /*# sourceMappingURL=style.css.map */
