@@ -5,9 +5,9 @@
 
 exports.graph = {
   creds: {
-    redirectUrl: 'http://localhost:3000/server/token',
-    clientID: '266809ae-388c-4341-8243-9f98f189e2f1',
-    clientSecret: 'rynaXZHY803}++crwQTX52{',
+    redirectUrl: '##########',
+    clientID: '#######',
+    clientSecret: '#########',
     identityMetadata:
 			'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
     allowHttpForRedirectUrl: true, // For development only
@@ -19,7 +19,7 @@ exports.graph = {
 };
 exports.smartSheet = {
   creds: {
-    clientSecret: 'oo0x7b6c9w46eod0xforn5c6fy'
+    clientSecret: '#########'
   },
-  defaultSheet: '3520439604537220'
+  defaultSheet: '##############'
 };

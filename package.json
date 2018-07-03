@@ -7,11 +7,7 @@
 		"start": "mocha ./tests/confTest.js && node ./bin/www",
 		"lint": "eslint .",
 		"test": "mocha ./tests/integrationTest.js --timeout 10000",
-<<<<<<< HEAD
 		"automatedTest": "mocha ./tests/automatedTest.js --timeout 180000"
-=======
-		"automatedTest": "mocha ./tests/automatedTest.js --ignore-certificate-errors --timeout 20000"
->>>>>>> b468d56cfe7cc7919862664d69ed6bbf300b5649
 	},
 	"keywords": [
 		"graph",
